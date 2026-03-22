@@ -1,24 +1,26 @@
 :root {
-  --primary: #2ea169;
-  --primary-hover: #268958;
-  --bg-color: #f8fae5;
-  --text-main: #1d3527;
-  --text-muted: #5e7065;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --card-shadow: 0 8px 32px 0 rgba(46, 161, 105, 0.1);
-  --danger: #e63946;
-  --success: #2a9d8f;
-  --warning: #e9c46a;
+  --primary: #00e475;
+  --primary-hover: #00a955;
+  --primary-glow: #62ff96;
+  --bg-color: #121412;
+  --text-main: #e2e3df;
+  --text-muted: #bccabe;
+  --glass-bg: rgba(26, 28, 26, 0.6);
+  --glass-border: rgba(134, 148, 137, 0.15);
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(0, 228, 117, 0.08);
+  --danger: #ffb4ab;
+  --success: #00e475;
+  --warning: #ffb77d;
+  --terracotta: #ffb4a5;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  background-image: radial-gradient(circle at 100% 0%, rgba(46, 161, 105, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 0% 100%, rgba(233, 196, 106, 0.15) 0%, transparent 50%);
+  background-image: radial-gradient(circle at 100% 0%, rgba(0, 228, 117, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(255, 180, 165, 0.05) 0%, transparent 50%);
   background-attachment: fixed;
   min-height: 100vh;
 }
@@ -50,21 +52,22 @@ a {
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border: none;
   font-size: 0.95rem;
 }
 
 .btn-primary {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 4px 14px rgba(46, 161, 105, 0.3);
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: #00210b;
+  box-shadow: 0 4px 14px rgba(0, 228, 117, 0.2);
+  border-radius: 50px;
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover);
+  background: linear-gradient(135deg, var(--primary-glow), var(--primary));
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(46, 161, 105, 0.4);
+  box-shadow: 0 0 20px rgba(98, 255, 150, 0.4);
 }
 
 .container {
@@ -118,6 +121,13 @@ a {
   font-size: 3.5rem;
   margin-bottom: 1rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.label-tech {
+  font-family: 'Space Grotesk', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .grid-cols {
