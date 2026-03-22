@@ -47,6 +47,8 @@ export async function POST(request) {
         const produce = await Produce.create({
             title: body.title,
             farmerName: body.farmerName || 'Test Farmer',
+            farmerPhone: body.farmerPhone || '0000000000',
+            farmerEmail: body.farmerEmail || '',
             price: body.price,
             quantity: body.quantity,
             address: body.location || 'Local Farm',

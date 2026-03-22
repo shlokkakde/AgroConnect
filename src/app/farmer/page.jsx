@@ -38,7 +38,7 @@ export default function FarmerDashboard() {
         const res = await fetch('/api/produce', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...formData, farmerName: user.name })
+            body: JSON.stringify({ ...formData, farmerName: user.name, farmerPhone: user.phone, farmerEmail: user.email })
         });
         const data = await res.json();
         if (data.success) {

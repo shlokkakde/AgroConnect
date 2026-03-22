@@ -9,6 +9,7 @@ export default function ConsumerDashboard() {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
     const [analyzing, setAnalyzing] = useState(false);
+    const [actionMsg, setActionMsg] = useState('');
 
     useEffect(() => {
         if (user && user.isVerified) {
@@ -35,6 +36,38 @@ export default function ConsumerDashboard() {
         setTimeout(() => setAnalyzing(false), 2000);
     };
 
+    const handleBuy = async (item) => {
+        if (!item.farmerEmail) {
+            setActionMsg(`Farmer hasn't added an email. Please call them at: ${item.farmerPhone}`);
+            setTimeout(() => setActionMsg(''), 6000);
+            return;
+        }
+
+        setActionMsg(`Emailing ${item.farmerName}...`);
+        try {
+            const res = await fetch('/api/email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    farmerEmail: item.farmerEmail,
+                    consumerPhone: user.phone,
+                    produceTitle: item.title
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                setActionMsg(`Email alert sent to ${item.farmerName}! They will contact you shortly.`);
+            } else {
+                setActionMsg(`Verification required: ${data.error}`);
+            }
+            setTimeout(() => setActionMsg(''), 4000);
+        } catch (error) {
+            console.error('Email Error:', error);
+            setActionMsg('Network error while sending Email.');
+            setTimeout(() => setActionMsg(''), 4000);
+        }
+    };
+
     if (authLoading) return <div style={{ padding: '3rem', textAlign: 'center' }}>Loading Consumer Interface...</div>;
 
     if (!user) {
@@ -55,6 +88,11 @@ export default function ConsumerDashboard() {
 
     return (
         <div className="container animate-fade-in" style={{ padding: '2rem 1.5rem' }}>
+            {actionMsg && (
+                <div style={{ position: 'fixed', top: '2rem', right: '2rem', background: 'var(--primary)', color: 'white', padding: '1rem 2rem', borderRadius: '8px', zIndex: 1000, animation: 'fadeIn 0.3s ease', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                    {actionMsg}
+                </div>
+            )}
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
                     <MapPin color="var(--primary)" size={40} /> Fresh Produce Near You
@@ -113,8 +151,8 @@ export default function ConsumerDashboard() {
                                                 <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--primary)', lineHeight: 1 }}>₹{item.price}<span style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--text-muted)' }}>/kg</span></div>
                                                 <div style={{ fontSize: '0.85rem', textDecoration: 'line-through', color: 'var(--danger)', marginTop: '0.3rem' }}>Mandi Rate: ₹{mandiRate}/kg</div>
                                             </div>
-                                            <button className="btn btn-primary" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.8rem 1.2rem' }}>
-                                                <ShoppingCart size={18} /> Add
+                                            <button onClick={() => handleBuy(item)} className="btn btn-primary" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.8rem 1.2rem' }}>
+                                                <ShoppingCart size={18} /> Buy
                                             </button>
                                         </div>
                                     </div>

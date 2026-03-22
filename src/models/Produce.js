@@ -10,6 +10,14 @@ const ProduceSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide the farmer name.'],
     },
+    farmerPhone: {
+        type: String,
+        required: [true, 'Please provide the farmer phone number for contact routing.'],
+    },
+    farmerEmail: {
+        type: String,
+        required: false,
+    },
     price: {
         type: Number,
         required: [true, 'Please provide a price per kg.'],
