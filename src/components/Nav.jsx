@@ -3,6 +3,7 @@ import { useLanguage } from './LanguageContext';
 import { useAuth } from './AuthContext';
 import { LogOut, User, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Nav() {
     const { lang, toggleLang, t } = useLanguage();
@@ -11,9 +12,9 @@ export default function Nav() {
 
     return (
         <nav className="glass-panel navbar">
-            <a href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none', zIndex: 100 }}>
+            <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none', zIndex: 100 }}>
                 🌾 {t('appName')}
-            </a>
+            </Link>
 
             {/* Mobile Hamburger Icon */}
             <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -22,11 +23,11 @@ export default function Nav() {
 
             {/* Links Container */}
             <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
-                <a href="/farmer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('farmerPortal')}</a>
-                <a href="/consumer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('consumerPortal')}</a>
+                <Link href="/farmer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('farmerPortal')}</Link>
+                <Link href="/consumer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('consumerPortal')}</Link>
 
                 {user?.role === 'ADMIN' && (
-                    <a href="/admin" style={{ fontWeight: 500, color: '#e63946' }} onClick={() => setMenuOpen(false)}>Admin Panel</a>
+                    <Link href="/admin" style={{ fontWeight: 500, color: '#e63946' }} onClick={() => setMenuOpen(false)}>Admin Panel</Link>
                 )}
 
                 <div style={{ width: '1px', height: '20px', background: 'var(--glass-border)', display: 'inline-block' }} className="desktop-only-divider"></div>
@@ -41,7 +42,7 @@ export default function Nav() {
                         </button>
                     </div>
                 ) : (
-                    <a href="/login" className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }} onClick={() => setMenuOpen(false)}>Login</a>
+                    <Link href="/login" className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }} onClick={() => setMenuOpen(false)}>Login</Link>
                 )}
 
                 <button className="btn" onClick={toggleLang} style={{ padding: '0.5rem 1.2rem', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>

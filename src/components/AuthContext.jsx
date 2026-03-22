@@ -1,11 +1,13 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         const savedUser = localStorage.getItem('agro_user');
@@ -79,7 +81,7 @@ export function AuthProvider({ children }) {
     const logout = () => {
         setUser(null);
         localStorage.removeItem('agro_user');
-        window.location.href = '/login';
+        router.push('/login');
     };
 
     return (

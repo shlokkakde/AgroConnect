@@ -4,9 +4,11 @@ import { useAuth } from '@/components/AuthContext';
 import { ShieldCheck, MailWarning, Send, LogOut } from 'lucide-react';
 import { auth } from '@/lib/firebase';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 export default function VerifyPage() {
     const { user, verifyOtp, logout, loading } = useAuth();
+    const router = useRouter();
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
@@ -17,11 +19,11 @@ export default function VerifyPage() {
 
     useEffect(() => {
         if (!loading && !user) {
-            window.location.href = '/login';
+            router.push('/login');
         } else if (!loading && user?.isVerified) {
             redirectUser({ role: user.role });
         }
-    }, [user, loading]);
+    }, [user, loading, router]);
 
     useEffect(() => {
         if (!loading && user && typeof window !== 'undefined' && !window.recaptchaVerifier) {
@@ -36,9 +38,9 @@ export default function VerifyPage() {
     }, [loading, user]);
 
     const redirectUser = (res) => {
-        if (res.role === 'FARMER') window.location.href = '/farmer';
-        else if (res.role === 'ADMIN') window.location.href = '/admin';
-        else window.location.href = '/consumer';
+        if (res.role === 'FARMER') router.push('/farmer');
+        else if (res.role === 'ADMIN') router.push('/admin');
+        else router.push('/consumer');
     };
 
     const handleSendOTP = async () => {

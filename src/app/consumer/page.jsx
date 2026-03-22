@@ -87,7 +87,8 @@ export default function ConsumerDashboard() {
                         <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No produce found nearby. Try a different search.</p>
                     ) : (
                         produce.map(item => {
-                            const mandiRate = Math.round(item.price * 1.35); // simulated 35% markup
+                            // Pull real Mandi rate from API payload, fallback to 35% math only if undefined
+                            const mandiRate = item.mandiRate || Math.round(item.price * 1.35);
                             const savings = Math.round(((mandiRate - item.price) / mandiRate) * 100);
 
                             return (

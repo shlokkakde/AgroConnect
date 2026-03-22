@@ -2,9 +2,11 @@
 import { useState } from 'react';
 import { useAuth } from '@/components/AuthContext';
 import { LogIn, UserPlus, ShieldCheck } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
     const { login, register } = useAuth();
+    const router = useRouter();
     const [mode, setMode] = useState('login'); // 'login' | 'register'
     const [formData, setFormData] = useState({ name: '', phone: '', email: '', password: '', role: 'FARMER' });
     const [error, setError] = useState('');
@@ -23,10 +25,10 @@ export default function LoginPage() {
         }
 
         if (res.success) {
-            if (!res.isVerified) window.location.href = '/verify';
-            else if (res.role === 'FARMER') window.location.href = '/farmer';
-            else if (res.role === 'ADMIN') window.location.href = '/admin';
-            else window.location.href = '/consumer';
+            if (!res.isVerified) router.push('/verify');
+            else if (res.role === 'FARMER') router.push('/farmer');
+            else if (res.role === 'ADMIN') router.push('/admin');
+            else router.push('/consumer');
         } else {
             setError(res.error || 'Authentication failed');
             setLoading(false);
