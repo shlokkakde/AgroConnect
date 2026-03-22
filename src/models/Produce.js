@@ -1,0 +1,47 @@
+import mongoose from 'mongoose';
+
+const ProduceSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: [true, 'Please provide a title for the produce.'],
+        maxlength: [60, 'Title cannot be more than 60 characters'],
+    },
+    farmerName: {
+        type: String,
+        required: [true, 'Please provide the farmer name.'],
+    },
+    price: {
+        type: Number,
+        required: [true, 'Please provide a price per kg.'],
+    },
+    quantity: {
+        type: Number,
+        required: [true, 'Please provide the quantity in kg.'],
+    },
+    image: {
+        type: String,
+        required: false,
+        default: 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop', // default fresh vegetables image
+    },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true,
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+        }
+    },
+    marketRateComparison: {
+        type: Number,
+        required: true,
+        default: 0
+    }
+}, { timestamps: true });
+
+ProduceSchema.index({ location: '2dsphere' });
+
+export default mongoose.models.Produce || mongoose.model('Produce', ProduceSchema);
