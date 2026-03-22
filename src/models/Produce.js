@@ -24,16 +24,8 @@ const ProduceSchema = new mongoose.Schema({
         default: 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop', // default fresh vegetables image
     },
     location: {
-        type: {
-            type: String,
-            enum: ['Point'],
-            required: true,
-            default: 'Point'
-        },
-        coordinates: {
-            type: [Number],
-            required: true,
-        }
+        type: String,
+        required: [true, 'Please provide the location (city or market).']
     },
     marketRateComparison: {
         type: Number,
@@ -42,6 +34,6 @@ const ProduceSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-ProduceSchema.index({ location: '2dsphere' });
+
 
 export default mongoose.models.Produce || mongoose.model('Produce', ProduceSchema);

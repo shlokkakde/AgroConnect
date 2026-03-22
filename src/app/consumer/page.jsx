@@ -104,7 +104,7 @@ export default function ConsumerDashboard() {
                                         <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.3rem', color: 'var(--text-main)' }}>{item.title}</h3>
 
                                         <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-muted)', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                            <MapPin size={16} /> {item.farmerName} • 2.4 km away
+                                            <MapPin size={16} /> {item.farmerName} • {item.location || 'Local Farm'}
                                         </p>
 
                                         <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', background: 'rgba(46, 161, 105, 0.05)', padding: '1rem', borderRadius: '12px' }}>

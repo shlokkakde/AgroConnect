@@ -1,13 +1,15 @@
 'use client';
 import { useLanguage } from './LanguageContext';
 import { useAuth } from './AuthContext';
-import { LogOut, User, Menu, X } from 'lucide-react';
+import { useTheme } from './ThemeContext';
+import { LogOut, User, Menu, X, Sun, Moon } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 
 export default function Nav() {
     const { lang, toggleLang, t } = useLanguage();
     const { user, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
@@ -49,9 +51,14 @@ export default function Nav() {
                     <Link href="/login" className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }} onClick={() => setMenuOpen(false)}>Login</Link>
                 )}
 
-                <button className="btn" onClick={toggleLang} style={{ padding: '0.5rem 1.2rem', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>
-                    {lang === 'en' ? 'हिंदी' : 'English'}
-                </button>
+                <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                    <button className="btn" onClick={toggleTheme} style={{ padding: '0.5rem', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Toggle Theme">
+                        {theme === 'dark' ? <Sun size={20} color="var(--warning)" /> : <Moon size={20} color="var(--primary)" />}
+                    </button>
+                    <button className="btn" onClick={toggleLang} style={{ padding: '0.5rem 1.2rem', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>
+                        {lang === 'en' ? 'हिंदी' : 'English'}
+                    </button>
+                </div>
             </div>
         </nav>
     );

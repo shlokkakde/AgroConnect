@@ -49,10 +49,7 @@ export async function POST(request) {
             farmerName: body.farmerName || 'Test Farmer',
             price: body.price,
             quantity: body.quantity,
-            location: {
-                type: 'Point',
-                coordinates: body.coordinates || [77.2090, 28.6139] // Delhi default
-            },
+            location: body.location || 'Local Farm',
             marketRateComparison: body.marketRateComparison || 0,
             image: body.image || 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop'
         });

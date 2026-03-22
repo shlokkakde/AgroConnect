@@ -1,4 +1,24 @@
+/* Light Mode (Default) */
 :root {
+  --primary: #2ea169;
+  --primary-hover: #268958;
+  --primary-glow: #62ff96;
+  --bg-color: #f8fae5;
+  --text-main: #1d3527;
+  --text-muted: #5e7065;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(46, 161, 105, 0.2);
+  --card-shadow: 0 8px 32px 0 rgba(46, 161, 105, 0.1);
+  --danger: #e63946;
+  --success: #2a9d8f;
+  --warning: #e9c46a;
+  --terracotta: #E2725B;
+  --bg-gradient-1: rgba(46, 161, 105, 0.1);
+  --bg-gradient-2: rgba(233, 196, 106, 0.15);
+}
+
+/* Dark Mode (Emerald Earth) */
+[data-theme='dark'] {
   --primary: #00e475;
   --primary-hover: #00a955;
   --primary-glow: #62ff96;
@@ -12,6 +32,8 @@
   --success: #00e475;
   --warning: #ffb77d;
   --terracotta: #ffb4a5;
+  --bg-gradient-1: rgba(0, 228, 117, 0.07);
+  --bg-gradient-2: rgba(255, 180, 165, 0.05);
 }
 
 body {
@@ -19,10 +41,11 @@ body {
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  background-image: radial-gradient(circle at 100% 0%, rgba(0, 228, 117, 0.07) 0%, transparent 40%),
-    radial-gradient(circle at 0% 100%, rgba(255, 180, 165, 0.05) 0%, transparent 50%);
+  background-image: radial-gradient(circle at 100% 0%, var(--bg-gradient-1) 0%, transparent 40%),
+    radial-gradient(circle at 0% 100%, var(--bg-gradient-2) 0%, transparent 50%);
   background-attachment: fixed;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {

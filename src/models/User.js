@@ -7,12 +7,9 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: false },
     password: { type: String, required: false }, // Optional for legacy support
     isVerified: { type: Boolean, default: false }, // OTP verification flag
-    location: {
-        type: { type: String, enum: ['Point'], default: 'Point' },
-        coordinates: { type: [Number], required: true }
-    }
+    location: { type: String, default: 'Not Specified' }
 }, { timestamps: true });
 
-UserSchema.index({ location: '2dsphere' });
+
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

@@ -7,7 +7,7 @@ import { useAuth } from '@/components/AuthContext';
 export default function FarmerDashboard() {
     const { user, loading: authLoading } = useAuth();
     const [produce, setProduce] = useState([]);
-    const [formData, setFormData] = useState({ title: '', price: '', quantity: '' });
+    const [formData, setFormData] = useState({ title: '', price: '', quantity: '', location: '' });
     const [loading, setLoading] = useState(false);
     const [toast, setToast] = useState('');
 
@@ -42,7 +42,7 @@ export default function FarmerDashboard() {
         });
         const data = await res.json();
         if (data.success) {
-            setFormData({ title: '', price: '', quantity: '' });
+            setFormData({ title: '', price: '', quantity: '', location: '' });
             fetchProduce();
             showToast('Produce Listed Successfully!');
         }
@@ -94,6 +94,14 @@ export default function FarmerDashboard() {
                             style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--glass-border)', outline: 'none' }}
                             value={formData.title}
                             onChange={e => setFormData({ ...formData, title: e.target.value })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Location (e.g. Pune, MH)"
+                            required
+                            style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--glass-border)', outline: 'none' }}
+                            value={formData.location}
+                            onChange={e => setFormData({ ...formData, location: e.target.value })}
                         />
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <input
