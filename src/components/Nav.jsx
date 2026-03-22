@@ -23,8 +23,12 @@ export default function Nav() {
 
             {/* Links Container */}
             <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
-                <Link href="/farmer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('farmerPortal')}</Link>
-                <Link href="/consumer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('consumerPortal')}</Link>
+                {user?.role === 'FARMER' && (
+                    <Link href="/farmer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('farmerPortal')}</Link>
+                )}
+                {user?.role === 'CONSUMER' && (
+                    <Link href="/consumer" style={{ fontWeight: 500 }} onClick={() => setMenuOpen(false)}>{t('consumerPortal')}</Link>
+                )}
 
                 {user?.role === 'ADMIN' && (
                     <Link href="/admin" style={{ fontWeight: 500, color: '#e63946' }} onClick={() => setMenuOpen(false)}>Admin Panel</Link>
