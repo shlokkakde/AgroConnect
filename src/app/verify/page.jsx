@@ -64,7 +64,7 @@ export default function VerifyPage() {
 
             setConfirmObj(confirmationResult);
             setOtpSent(true);
-            setSuccessMsg('Real OTP successfully sent via Firebase!');
+            setSuccessMsg('OTP sent successfully!');
         } catch (err) {
             setError(err.message || 'Failed to send SMS using Firebase.');
         } finally {

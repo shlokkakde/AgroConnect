@@ -25,7 +25,20 @@ export default function AdminDashboard() {
         if (dbProduce.success) setProduce(dbProduce.data);
     };
 
+    const updateUser = async (userId, field, value) => {
+        // Prevent modifying the hardcoded master admin visually (though api blocks it too)
+        if (userId === 'admin_id') return;
+
+        await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'adminUpdate', userId, updateFields: { [field]: value } })
+        });
+        fetchData(); // Immediately refresh the table to reflect the DB change
+    };
+
     const deleteUser = async (id) => {
+        if (id === 'admin_id') return alert("Cannot delete the Master Admin.");
         if (!confirm('Are you sure you want to delete this user?')) return;
         await fetch(`/api/users?id=${id}`, { method: 'DELETE' });
         fetchData();
@@ -96,27 +109,65 @@ export default function AdminDashboard() {
                             {users.map(u => (
                                 <tr key={u._id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                                     <td style={{ padding: '1rem', fontWeight: 500 }}>{u.name}</td>
+
+                                    {/* Inline Role Modifier */}
                                     <td style={{ padding: '1rem' }}>
-                                        <span style={{
-                                            padding: '0.2rem 0.5rem',
-                                            borderRadius: '4px',
-                                            fontSize: '0.8rem',
-                                            background: u.role === 'ADMIN' ? '#ffeded' : u.role === 'FARMER' ? '#e6f4ea' : '#e3f2fd',
-                                            color: u.role === 'ADMIN' ? '#e63946' : u.role === 'FARMER' ? 'var(--primary)' : '#1976d2'
-                                        }}>
-                                            {u.role}
-                                        </span>
+                                        <select
+                                            value={u.role}
+                                            onChange={(e) => updateUser(u._id, 'role', e.target.value)}
+                                            style={{
+                                                padding: '0.4rem',
+                                                borderRadius: '6px',
+                                                border: '1px solid var(--glass-border)',
+                                                background: u.role === 'ADMIN' ? '#ffeded' : u.role === 'FARMER' ? '#e6f4ea' : '#e3f2fd',
+                                                color: u.role === 'ADMIN' ? '#e63946' : u.role === 'FARMER' ? 'var(--primary)' : '#1976d2',
+                                                fontWeight: '600',
+                                                outline: 'none',
+                                                cursor: u.role === 'ADMIN' ? 'not-allowed' : 'pointer'
+                                            }}
+                                            disabled={u.role === 'ADMIN'}
+                                            title={u.role === 'ADMIN' ? "Cannot modify Master Admin" : "Change User Role"}
+                                        >
+                                            <option value="FARMER">FARMER</option>
+                                            <option value="CONSUMER">CONSUMER</option>
+                                            {u.role === 'ADMIN' && <option value="ADMIN">ADMIN</option>}
+                                        </select>
                                     </td>
+
+                                    {/* Inline Verification Modifier */}
                                     <td style={{ padding: '1rem' }}>
-                                        <span style={{ color: u.isVerified ? 'var(--success)' : 'var(--warning)', fontWeight: 600, fontSize: '0.85rem' }}>
-                                            {u.isVerified ? '✅ Verified' : '⏳ Pending'}
-                                        </span>
+                                        <select
+                                            value={u.isVerified ? 'true' : 'false'}
+                                            onChange={(e) => updateUser(u._id, 'isVerified', e.target.value === 'true')}
+                                            style={{
+                                                padding: '0.4rem',
+                                                borderRadius: '6px',
+                                                border: '1px solid var(--glass-border)',
+                                                background: u.isVerified ? '#e6f4ea' : '#fff3cd',
+                                                color: u.isVerified ? 'var(--success)' : 'var(--warning)',
+                                                fontWeight: '600',
+                                                outline: 'none',
+                                                cursor: u.role === 'ADMIN' ? 'not-allowed' : 'pointer'
+                                            }}
+                                            disabled={u.role === 'ADMIN'}
+                                            title={u.role === 'ADMIN' ? "Master Admin is always verified" : "Change Verification Status"}
+                                        >
+                                            <option value="true">✅ Verified</option>
+                                            <option value="false">⏳ Pending</option>
+                                        </select>
                                     </td>
+
                                     <td style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                                         {u.phone} {u.email && <><br />{u.email}</>}
                                     </td>
                                     <td style={{ padding: '1rem', textAlign: 'right' }}>
-                                        <button onClick={() => deleteUser(u._id)} className="btn" style={{ padding: '0.4rem', color: 'var(--danger)', background: '#ffeded' }} title="Delete User">
+                                        <button
+                                            onClick={() => deleteUser(u._id)}
+                                            className="btn"
+                                            style={{ padding: '0.4rem', color: u.role === 'ADMIN' ? '#ccc' : 'var(--danger)', background: u.role === 'ADMIN' ? 'transparent' : '#ffeded' }}
+                                            title="Delete User"
+                                            disabled={u.role === 'ADMIN'}
+                                        >
                                             <Trash2 size={16} />
                                         </button>
                                     </td>
