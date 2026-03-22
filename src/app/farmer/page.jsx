@@ -31,6 +31,31 @@ export default function FarmerDashboard() {
         setTimeout(() => setToast(''), 3000);
     };
 
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 600;
+                const scaleSize = Math.min(MAX_WIDTH / img.width, 1);
+                canvas.width = img.width * scaleSize;
+                canvas.height = img.height * scaleSize;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+                setFormData({ ...formData, image: compressedBase64 });
+            };
+        };
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!user) return;
@@ -103,13 +128,17 @@ export default function FarmerDashboard() {
                             value={formData.location}
                             onChange={e => setFormData({ ...formData, location: e.target.value })}
                         />
-                        <input
-                            type="url"
-                            placeholder="Image URL (Public link to photo)"
-                            style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--glass-border)', outline: 'none' }}
-                            value={formData.image}
-                            onChange={e => setFormData({ ...formData, image: e.target.value })}
-                        />
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                style={{ padding: '0.4rem', flex: 1, borderRadius: '8px', border: '1px dashed var(--primary)', background: 'rgba(46, 161, 105, 0.05)', outline: 'none', cursor: 'pointer' }}
+                            />
+                            {formData.image && (
+                                <img src={formData.image} alt="Crop Preview" style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }} />
+                            )}
+                        </div>
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <input
                                 type="number"
