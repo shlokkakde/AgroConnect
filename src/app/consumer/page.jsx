@@ -5,35 +5,35 @@ import { useAuth } from '@/components/AuthContext';
 
 export default function ConsumerDashboard() {
     const { user, loading: authLoading } = useAuth();
+    const [allProduce, setAllProduce] = useState([]);
     const [produce, setProduce] = useState([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
-    const [analyzing, setAnalyzing] = useState(false);
     const [actionMsg, setActionMsg] = useState('');
 
     useEffect(() => {
         if (user && user.isVerified) {
             fetchProduce();
         }
-    }, [search, user]);
+    }, [user]);
+
+    useEffect(() => {
+        if (search) {
+            setProduce(allProduce.filter(p => p.title.toLowerCase().includes(search.toLowerCase())));
+        } else {
+            setProduce(allProduce);
+        }
+    }, [search, allProduce]);
 
     const fetchProduce = async () => {
         setLoading(true);
         const res = await fetch(`/api/produce`);
         const data = await res.json();
         if (data.success) {
-            let results = data.data;
-            if (search) {
-                results = results.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
-            }
-            setProduce(results);
+            setAllProduce(data.data);
+            setProduce(data.data);
         }
         setLoading(false);
-    };
-
-    const handleAIAnalysis = () => {
-        setAnalyzing(true);
-        setTimeout(() => setAnalyzing(false), 2000);
     };
 
     const handleBuy = async (item) => {
@@ -104,16 +104,12 @@ export default function ConsumerDashboard() {
                         <Search color="var(--text-muted)" size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
                         <input
                             type="text"
-                            placeholder="Search for Tomatoes, Wheat..."
+                            placeholder="Instant Search for Tomatoes, Wheat..."
                             style={{ width: '100%', padding: '1rem 1rem 1rem 3rem', borderRadius: '30px', border: '1px solid var(--glass-border)', boxShadow: 'var(--card-shadow)', fontSize: '1.05rem', outline: 'none' }}
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    <button className="btn btn-primary" onClick={handleAIAnalysis} style={{ borderRadius: '30px', padding: '0 2rem', display: 'flex', gap: '0.5rem', background: 'linear-gradient(135deg, #2ea169 0%, #2a9d8f 100%)', flexShrink: 0 }}>
-                        {analyzing ? <AlertCircle className="animate-spin" /> : <Sparkles />}
-                        <span className="desktop-only-text">{analyzing ? 'Analyzing Prices...' : 'AI Deal Finder'}</span>
-                    </button>
                 </div>
             </div>
 
@@ -132,7 +128,12 @@ export default function ConsumerDashboard() {
                             return (
                                 <div key={item._id} className="glass-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}>
                                     <div style={{ position: 'relative' }}>
-                                        <img src={item.image} alt={item.title} style={{ width: '100%', height: '220px', objectFit: 'cover' }} />
+                                        <img 
+                                            src={item.image || 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop'} 
+                                            alt={item.title} 
+                                            onError={(e) => { e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop"; }}
+                                            style={{ width: '100%', height: '220px', objectFit: 'cover' }} 
+                                        />
                                         <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: '#e6f4ea', color: 'var(--success)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
                                             <Sparkles size={14} /> {savings}% AI Savings
                                         </div>

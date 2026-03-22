@@ -7,7 +7,7 @@ import { useAuth } from '@/components/AuthContext';
 export default function FarmerDashboard() {
     const { user, loading: authLoading } = useAuth();
     const [produce, setProduce] = useState([]);
-    const [formData, setFormData] = useState({ title: '', price: '', quantity: '', location: '' });
+    const [formData, setFormData] = useState({ title: '', price: '', quantity: '', location: '', image: '' });
     const [loading, setLoading] = useState(false);
     const [toast, setToast] = useState('');
 
@@ -42,7 +42,7 @@ export default function FarmerDashboard() {
         });
         const data = await res.json();
         if (data.success) {
-            setFormData({ title: '', price: '', quantity: '', location: '' });
+            setFormData({ title: '', price: '', quantity: '', location: '', image: '' });
             fetchProduce();
             showToast('Produce Listed Successfully!');
         }
@@ -103,6 +103,13 @@ export default function FarmerDashboard() {
                             value={formData.location}
                             onChange={e => setFormData({ ...formData, location: e.target.value })}
                         />
+                        <input
+                            type="url"
+                            placeholder="Image URL (Public link to photo)"
+                            style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--glass-border)', outline: 'none' }}
+                            value={formData.image}
+                            onChange={e => setFormData({ ...formData, image: e.target.value })}
+                        />
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <input
                                 type="number"
@@ -149,7 +156,12 @@ export default function FarmerDashboard() {
                     ) : (
                         produce.map(item => (
                             <div key={item._id} className="glass-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                                <img src={item.image} alt={item.title} style={{ width: '100%', height: '160px', objectFit: 'cover' }} />
+                                <img 
+                                    src={item.image || 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop'} 
+                                    alt={item.title} 
+                                    onError={(e) => { e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop"; }}
+                                    style={{ width: '100%', height: '160px', objectFit: 'cover' }} 
+                                />
                                 <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
                                     <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem' }}>{item.title}</h3>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', marginBottom: '1.5rem', fontWeight: 500 }}>

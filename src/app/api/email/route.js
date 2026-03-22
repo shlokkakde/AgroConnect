@@ -22,7 +22,7 @@ export async function POST(req) {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: farmerEmail,
-            subject: `agroConnect Alert: Buyer interested in your ${produceTitle}!`,
+            subject: `AgroConnect Alert: Buyer interested in your ${produceTitle}!`,
             html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; border-radius: 8px; background-color: #f4fce3; max-width: 600px; margin: 0 auto;">
                     <h2 style="color: #2ea169; border-bottom: 2px solid #2ea169; padding-bottom: 10px;">agroConnect Alert! 🌱</h2>
