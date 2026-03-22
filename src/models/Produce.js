@@ -23,7 +23,7 @@ const ProduceSchema = new mongoose.Schema({
         required: false,
         default: 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop', // default fresh vegetables image
     },
-    location: {
+    address: {
         type: String,
         required: [true, 'Please provide the location (city or market).']
     },

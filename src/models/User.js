@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: false },
     password: { type: String, required: false }, // Optional for legacy support
     isVerified: { type: Boolean, default: false }, // OTP verification flag
-    location: { type: String, default: 'Not Specified' }
+    address: { type: String, default: 'Not Specified' }
 }, { timestamps: true });
 
 

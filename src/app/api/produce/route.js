@@ -49,7 +49,7 @@ export async function POST(request) {
             farmerName: body.farmerName || 'Test Farmer',
             price: body.price,
             quantity: body.quantity,
-            location: body.location || 'Local Farm',
+            address: body.location || 'Local Farm',
             marketRateComparison: body.marketRateComparison || 0,
             image: body.image || 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop'
         });
