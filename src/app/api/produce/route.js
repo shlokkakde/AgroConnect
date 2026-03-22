@@ -20,18 +20,30 @@ export async function GET(request) {
             'Tomato': 45, 'Onion': 60, 'Potato': 25, 'Wheat': 35, 'Rice': 55, 'Apple': 120, 'Mango': 80, 'Carrot': 40
         };
 
-        const enrichedProduce = produce.map(item => {
+        const enrichedProduce = await Promise.all(produce.map(async item => {
             const cropObj = item.toObject();
             const normalizedCrop = cropObj.title.trim().charAt(0).toUpperCase() + cropObj.title.trim().slice(1).toLowerCase();
 
             // Try to fetch real API rate, otherwise calculate organic markup fallback
             const realMandiRate = liveMandiRates[normalizedCrop] || Math.round(cropObj.price * 1.35);
 
+            // Cross-reference the live Users collection to guarantee email/contact info is present, 
+            // even on legacy produce listings that predated the email feature.
+            let liveFarmer = null;
+            if (cropObj.farmerPhone && cropObj.farmerPhone !== '0000000000') {
+                liveFarmer = await User.findOne({ phone: cropObj.farmerPhone });
+            }
+            if (!liveFarmer && cropObj.farmerName) {
+                liveFarmer = await User.findOne({ name: cropObj.farmerName, role: 'FARMER' });
+            }
+
             return {
                 ...cropObj,
+                farmerEmail: liveFarmer?.email || cropObj.farmerEmail, // Override with Live DB truth
+                farmerPhone: liveFarmer?.phone || cropObj.farmerPhone,
                 mandiRate: realMandiRate // Injected via Backend
             };
-        });
+        }));
 
         return NextResponse.json({ success: true, data: enrichedProduce });
     } catch (error) {
