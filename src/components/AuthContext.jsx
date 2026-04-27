@@ -9,6 +9,22 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
+    const readErrorResponse = async (res) => {
+        const fallback = `Request failed (${res.status})`;
+
+        try {
+            const data = await res.json();
+            return data.error || fallback;
+        } catch {
+            try {
+                const text = await res.text();
+                return text || fallback;
+            } catch {
+                return fallback;
+            }
+        }
+    };
+
     useEffect(() => {
         const savedUser = localStorage.getItem('agro_user');
         if (savedUser) setUser(JSON.parse(savedUser));
@@ -22,6 +38,11 @@ export function AuthProvider({ children }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'login', phone, password })
             });
+
+            if (!res.ok) {
+                return { success: false, error: await readErrorResponse(res) };
+            }
+
             const data = await res.json();
 
             if (data.success) {
@@ -32,7 +53,8 @@ export function AuthProvider({ children }) {
             }
             return { success: false, error: data.error };
         } catch (e) {
-            return { success: false, error: 'Network error' };
+            console.error('Login request failed:', e);
+            return { success: false, error: e.message || 'Network error' };
         }
     };
 
@@ -43,6 +65,11 @@ export function AuthProvider({ children }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'register', name, phone, email, password, role })
             });
+
+            if (!res.ok) {
+                return { success: false, error: await readErrorResponse(res) };
+            }
+
             const data = await res.json();
 
             if (data.success) {
@@ -53,7 +80,8 @@ export function AuthProvider({ children }) {
             }
             return { success: false, error: data.error };
         } catch (e) {
-            return { success: false, error: 'Network error' };
+            console.error('Register request failed:', e);
+            return { success: false, error: e.message || 'Network error' };
         }
     };
 
@@ -64,6 +92,11 @@ export function AuthProvider({ children }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'verify', userId, otp })
             });
+
+            if (!res.ok) {
+                return { success: false, error: await readErrorResponse(res) };
+            }
+
             const data = await res.json();
 
             if (data.success) {
@@ -74,7 +107,8 @@ export function AuthProvider({ children }) {
             }
             return { success: false, error: data.error };
         } catch (e) {
-            return { success: false, error: 'Network error' };
+            console.error('OTP verification request failed:', e);
+            return { success: false, error: e.message || 'Network error' };
         }
     };
 

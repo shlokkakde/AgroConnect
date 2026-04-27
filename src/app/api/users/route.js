@@ -3,14 +3,19 @@ import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 
 export async function GET() {
-    await dbConnect();
-    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, data: users });
+    try {
+        await dbConnect();
+        const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+        return NextResponse.json({ success: true, data: users });
+    } catch (error) {
+        console.error('GET /api/users failed:', error);
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
 }
 
 export async function POST(req) {
-    await dbConnect();
     try {
+        await dbConnect();
         const body = await req.json();
         const { action } = body;
 
@@ -55,19 +60,21 @@ export async function POST(req) {
 
         return NextResponse.json({ success: false, error: 'Invalid action' }, { status: 400 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        console.error('POST /api/users failed:', error);
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }
 
 export async function DELETE(req) {
-    await dbConnect();
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get('id');
     try {
+        await dbConnect();
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get('id');
         if (id === 'admin_id') return NextResponse.json({ success: false, error: 'Cannot delete master admin' }, { status: 403 });
         await User.findByIdAndDelete(id);
         return NextResponse.json({ success: true });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        console.error('DELETE /api/users failed:', error);
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }
