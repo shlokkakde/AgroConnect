@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroConnect | Login Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">A</span>
+        <span>AgroConnect</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a class="active" href="login.html">Login</a>
+        <a href="farmer.html">Farmer Portal</a>
+        <a href="consumer.html">Consumer Portal</a>
+        <a href="admin.html">Admin Panel</a>
+      </nav>
+    </header>
+
+    <main class="auth-shell">
+      <section class="panel auth-card">
+        <p class="eyebrow">Authentication Screen</p>
+        <h1 class="page-title">Welcome to AgroConnect</h1>
+        <p class="muted">Static login and registration design for Review 1.</p>
+
+        <div class="auth-tabs">
+          <span class="active">Login</span>
+          <span>Register</span>
+        </div>
+
+        <div class="field-group">
+          <div>
+            <label class="field-label" for="phone">Phone Number</label>
+            <input class="input" id="phone" type="text" placeholder="Enter 10-digit mobile number">
+          </div>
+          <div>
+            <label class="field-label" for="password">Password</label>
+            <input class="input" id="password" type="password" placeholder="Enter password">
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <a class="button button-primary" href="farmer.html">Sign In</a>
+          <a class="button button-secondary" href="index.html">Back to Home</a>
+        </div>
+
+        <div class="helper-links">
+          <span>Sample role choice: Farmer / Consumer</span>
+          <span>OTP verification screen can follow after login</span>
+        </div>
+
+        <hr style="margin: 26px 0; border: 0; border-top: 1px solid rgba(41, 101, 63, 0.1);">
+
+        <h3>Create account</h3>
+        <div class="field-group">
+          <div>
+            <label class="field-label" for="name">Full Name</label>
+            <input class="input" id="name" type="text" placeholder="Ramesh Patil">
+          </div>
+          <div class="field-row">
+            <div>
+              <label class="field-label" for="email">Email</label>
+              <input class="input" id="email" type="email" placeholder="farmer@example.com">
+            </div>
+            <div>
+              <label class="field-label" for="role">Role</label>
+              <select class="select" id="role">
+                <option>Farmer</option>
+                <option>Consumer</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note">This page is static and built with HTML and CSS only.</div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

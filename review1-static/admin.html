@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroConnect | Admin Panel Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">A</span>
+        <span>AgroConnect</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="farmer.html">Farmer Portal</a>
+        <a href="consumer.html">Consumer Portal</a>
+        <a class="active" href="admin.html">Admin Panel</a>
+      </nav>
+    </header>
+
+    <div class="page-title">
+      <p class="eyebrow">Administrator View</p>
+      <h1>Master control panel</h1>
+      <p class="muted">Static admin screen for managing users and marketplace listings.</p>
+    </div>
+
+    <div class="tab-row">
+      <a class="active" href="#">Users</a>
+      <a href="#">Produce Listings</a>
+      <a href="#">Reports</a>
+    </div>
+
+    <section class="panel table-panel">
+      <div class="section-head">
+        <div>
+          <h2>User Management</h2>
+          <p>Administrators can review account roles, verification status, and contact details.</p>
+        </div>
+        <span class="chip chip-strong">24 users</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Contact</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ramesh Patil</strong></td>
+            <td>Farmer</td>
+            <td><span class="pill pill-success">Verified</span></td>
+            <td>9876543210<br>ramesh@example.com</td>
+            <td>Review</td>
+          </tr>
+          <tr>
+            <td><strong>Priya Deshmukh</strong></td>
+            <td>Consumer</td>
+            <td><span class="pill pill-warning">Pending</span></td>
+            <td>9876501234<br>priya@example.com</td>
+            <td>Approve</td>
+          </tr>
+          <tr>
+            <td><strong>Agro Admin</strong></td>
+            <td>Admin</td>
+            <td><span class="pill pill-success">Verified</span></td>
+            <td>admin@agroconnect.com</td>
+            <td>Protected</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel table-panel" style="margin-top: 24px;">
+      <div class="section-head">
+        <div>
+          <h2>Produce Listing Oversight</h2>
+          <p>Moderation table for current marketplace posts.</p>
+        </div>
+        <span class="chip">58 active listings</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Crop</th>
+            <th>Farmer</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Organic Tomatoes</strong></td>
+            <td>Ramesh Patil</td>
+            <td>Rs. 42/kg</td>
+            <td>120 kg</td>
+            <td><span class="pill pill-success">Live</span></td>
+          </tr>
+          <tr>
+            <td><strong>Green Chillies</strong></td>
+            <td>Savita Farms</td>
+            <td>Rs. 55/kg</td>
+            <td>80 kg</td>
+            <td><span class="pill pill-warning">Review</span></td>
+          </tr>
+          <tr>
+            <td><strong>Spinach Bundles</strong></td>
+            <td>Meera Greens</td>
+            <td>Rs. 24/bundle</td>
+            <td>60 bundles</td>
+            <td><span class="pill pill-success">Live</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

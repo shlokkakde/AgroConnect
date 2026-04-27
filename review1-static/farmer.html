@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroConnect | Farmer Dashboard Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">A</span>
+        <span>AgroConnect</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a class="active" href="farmer.html">Farmer Portal</a>
+        <a href="consumer.html">Consumer Portal</a>
+        <a href="admin.html">Admin Panel</a>
+      </nav>
+    </header>
+
+    <div class="page-title">
+      <p class="eyebrow">Farmer Dashboard</p>
+      <h1>Manage produce listings</h1>
+      <p class="muted">Static seller interface for adding crops and reviewing active inventory.</p>
+    </div>
+
+    <section class="metrics-grid">
+      <article class="mini-card">
+        <span class="muted">Active Listings</span>
+        <strong>06</strong>
+      </article>
+      <article class="mini-card">
+        <span class="muted">Weekly Orders</span>
+        <strong>18</strong>
+      </article>
+      <article class="mini-card">
+        <span class="muted">Revenue Estimate</span>
+        <strong>Rs. 12,400</strong>
+      </article>
+    </section>
+
+    <section class="dashboard-grid" style="margin-top: 24px;">
+      <div class="stack">
+        <article class="panel form-panel">
+          <h2>List New Produce</h2>
+          <p class="muted">Enter the crop details you want to publish on the marketplace.</p>
+          <div class="field-group">
+            <div>
+              <label class="field-label" for="crop-title">Crop Title</label>
+              <input class="input" id="crop-title" type="text" placeholder="Organic Tomatoes">
+            </div>
+            <div>
+              <label class="field-label" for="location">Location</label>
+              <input class="input" id="location" type="text" placeholder="Pune, Maharashtra">
+            </div>
+            <div class="upload-box">Upload crop image preview</div>
+            <div class="field-row">
+              <div>
+                <label class="field-label" for="price">Price per kg</label>
+                <input class="input" id="price" type="text" placeholder="Rs. 42">
+              </div>
+              <div>
+                <label class="field-label" for="quantity">Quantity</label>
+                <input class="input" id="quantity" type="text" placeholder="180 kg">
+              </div>
+            </div>
+          </div>
+          <div class="cta-row">
+            <a class="button button-primary" href="#">Publish Listing</a>
+          </div>
+        </article>
+      </div>
+
+      <article class="panel table-panel">
+        <div class="section-head" style="margin-bottom: 18px;">
+          <div>
+            <p class="eyebrow">Current Produce</p>
+            <h2>Your Active Listings</h2>
+          </div>
+          <span class="chip chip-strong">6 items live</span>
+        </div>
+
+        <div class="listing-grid">
+          <article class="listing-card">
+            <div class="listing-image"></div>
+            <div class="listing-body">
+              <div class="top-line">
+                <h3>Organic Tomatoes</h3>
+                <span class="pill pill-success">Fresh</span>
+              </div>
+              <p>Nashik Market Zone</p>
+              <div class="price-row">
+                <span class="price">Rs. 42/kg</span>
+                <span class="muted">120 kg left</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image"></div>
+            <div class="listing-body">
+              <div class="top-line">
+                <h3>Green Chillies</h3>
+                <span class="pill pill-warning">Hot Sale</span>
+              </div>
+              <p>Satara Collection Point</p>
+              <div class="price-row">
+                <span class="price">Rs. 55/kg</span>
+                <span class="muted">80 kg left</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image"></div>
+            <div class="listing-body">
+              <div class="top-line">
+                <h3>Fresh Spinach</h3>
+                <span class="pill pill-success">Organic</span>
+              </div>
+              <p>Pune Rural Farm</p>
+              <div class="price-row">
+                <span class="price">Rs. 28/kg</span>
+                <span class="muted">60 bundles</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image"></div>
+            <div class="listing-body">
+              <div class="top-line">
+                <h3>Yellow Capsicum</h3>
+                <span class="pill pill-danger">Low Stock</span>
+              </div>
+              <p>Kolhapur Cluster</p>
+              <div class="price-row">
+                <span class="price">Rs. 72/kg</span>
+                <span class="muted">25 kg left</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

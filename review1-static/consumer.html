@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroConnect | Consumer Dashboard Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">A</span>
+        <span>AgroConnect</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="farmer.html">Farmer Portal</a>
+        <a class="active" href="consumer.html">Consumer Portal</a>
+        <a href="admin.html">Admin Panel</a>
+      </nav>
+    </header>
+
+    <div class="page-title">
+      <p class="eyebrow">Consumer Dashboard</p>
+      <h1>Find fresh produce near you</h1>
+      <p class="muted">Static customer browsing screen with search and produce cards.</p>
+    </div>
+
+    <section class="panel search-panel">
+      <div class="section-head" style="margin-bottom: 0;">
+        <div>
+          <h2>Search marketplace</h2>
+          <p>Browse direct farmer listings and compare fair prices.</p>
+        </div>
+        <span class="chip chip-strong">12 results nearby</span>
+      </div>
+
+      <div class="search-bar">
+        <input class="input" type="text" placeholder="Search tomatoes, wheat, onions...">
+        <a class="button button-primary" href="#">Search Produce</a>
+      </div>
+    </section>
+
+    <section class="product-grid" style="margin-top: 24px;">
+      <article class="product-card">
+        <div class="product-image">
+          <span class="savings-badge">18% Savings</span>
+        </div>
+        <div class="product-body">
+          <div class="top-line">
+            <h3>Farm Fresh Tomatoes</h3>
+            <span class="pill pill-success">Verified Farmer</span>
+          </div>
+          <p>Ramesh Patil • Pune Market Road</p>
+          <div class="price-row">
+            <div>
+              <div class="price">Rs. 40/kg</div>
+              <div class="muted">Mandi rate: Rs. 49/kg</div>
+            </div>
+            <a class="button button-secondary" href="#">Buy</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <span class="savings-badge">12% Savings</span>
+        </div>
+        <div class="product-body">
+          <div class="top-line">
+            <h3>Golden Potatoes</h3>
+            <span class="pill pill-warning">Popular</span>
+          </div>
+          <p>Savita Farms • Nashik Collection Point</p>
+          <div class="price-row">
+            <div>
+              <div class="price">Rs. 27/kg</div>
+              <div class="muted">Mandi rate: Rs. 31/kg</div>
+            </div>
+            <a class="button button-secondary" href="#">Buy</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <span class="savings-badge">21% Savings</span>
+        </div>
+        <div class="product-body">
+          <div class="top-line">
+            <h3>Organic Spinach</h3>
+            <span class="pill pill-success">Organic</span>
+          </div>
+          <p>Meera Greens • Satara Organic Cluster</p>
+          <div class="price-row">
+            <div>
+              <div class="price">Rs. 24/bundle</div>
+              <div class="muted">Mandi rate: Rs. 30/bundle</div>
+            </div>
+            <a class="button button-secondary" href="#">Buy</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>
