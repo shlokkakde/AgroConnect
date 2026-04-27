@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { TrendingUp, PlusCircle, Leaf, Trash2, Sprout, Lock, AlertTriangle } from 'lucide-react';
-import DemandChart from '@/components/DemandChart';
+import { PlusCircle, Leaf, Trash2, Sprout, Lock } from 'lucide-react';
 import { useAuth } from '@/components/AuthContext';
 
 export default function FarmerDashboard() {
@@ -161,14 +160,6 @@ export default function FarmerDashboard() {
                             <Leaf size={18} /> {loading ? 'Listing...' : 'Publish Listing'}
                         </button>
                     </form>
-                </div>
-
-                <div className="glass-panel" style={{ padding: '2rem', marginTop: '2rem', background: 'rgba(233, 196, 106, 0.1)' }}>
-                    <h2 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <TrendingUp color="#e9c46a" /> Demand Forecast
-                    </h2>
-                    <p style={{ color: 'var(--text-muted)' }}>AI Model predicts Mandi rates for Tomatoes will rise by 12% next week. Consider holding inventory!</p>
-                    <DemandChart />
                 </div>
             </div>
 
