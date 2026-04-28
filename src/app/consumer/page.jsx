@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Search, MapPin, Sparkles, AlertCircle, ShoppingCart, Lock } from 'lucide-react';
+import { Search, MapPin, Sparkles, ShoppingCart, Lock, TimerReset } from 'lucide-react';
 import { useAuth } from '@/components/AuthContext';
+import RouteEtaModal from '@/components/RouteEtaModal';
 
 export default function ConsumerDashboard() {
     const { user, loading: authLoading } = useAuth();
@@ -10,6 +11,7 @@ export default function ConsumerDashboard() {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
     const [actionMsg, setActionMsg] = useState('');
+    const [selectedRouteItem, setSelectedRouteItem] = useState(null);
 
     useEffect(() => {
         if (user && user.isVerified) {
@@ -19,7 +21,7 @@ export default function ConsumerDashboard() {
 
     useEffect(() => {
         if (search) {
-            setProduce(allProduce.filter(p => p.title.toLowerCase().includes(search.toLowerCase())));
+            setProduce(allProduce.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())));
         } else {
             setProduce(allProduce);
         }
@@ -27,7 +29,7 @@ export default function ConsumerDashboard() {
 
     const fetchProduce = async () => {
         setLoading(true);
-        const res = await fetch(`/api/produce`);
+        const res = await fetch('/api/produce');
         const data = await res.json();
         if (data.success) {
             setAllProduce(data.data);
@@ -51,8 +53,8 @@ export default function ConsumerDashboard() {
                 body: JSON.stringify({
                     farmerEmail: item.farmerEmail,
                     consumerPhone: user.phone,
-                    produceTitle: item.title
-                })
+                    produceTitle: item.title,
+                }),
             });
             const data = await res.json();
             if (data.success) {
@@ -63,7 +65,7 @@ export default function ConsumerDashboard() {
             setTimeout(() => setActionMsg(''), 4000);
         } catch (error) {
             console.error('Email Error:', error);
-            setActionMsg('Network error while sending Email.');
+            setActionMsg('Network error while sending email.');
             setTimeout(() => setActionMsg(''), 4000);
         }
     };
@@ -88,16 +90,21 @@ export default function ConsumerDashboard() {
 
     return (
         <div className="container animate-fade-in" style={{ padding: '2rem 1.5rem' }}>
+            {selectedRouteItem && (
+                <RouteEtaModal item={selectedRouteItem} onClose={() => setSelectedRouteItem(null)} />
+            )}
+
             {actionMsg && (
                 <div style={{ position: 'fixed', top: '2rem', right: '2rem', background: 'var(--primary)', color: 'white', padding: '1rem 2rem', borderRadius: '8px', zIndex: 1000, animation: 'fadeIn 0.3s ease', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
                     {actionMsg}
                 </div>
             )}
+
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
                     <MapPin color="var(--primary)" size={40} /> Fresh Produce Near You
                 </h1>
-                <p style={{ color: 'var(--text-muted)' }}>Buy directly from farmers and save. AI-verified fair prices.</p>
+                <p style={{ color: 'var(--text-muted)' }}>Buy directly from farmers, save more, and preview live delivery ETA with traffic.</p>
 
                 <div style={{ maxWidth: '700px', margin: '0 auto', display: 'flex', gap: '1rem', alignItems: 'stretch' }}>
                     <div style={{ flex: 1, position: 'relative' }}>
@@ -120,19 +127,21 @@ export default function ConsumerDashboard() {
                     {produce.length === 0 ? (
                         <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No produce found nearby. Try a different search.</p>
                     ) : (
-                        produce.map(item => {
-                            // Pull real Mandi rate from API payload, fallback to 35% math only if undefined
+                        produce.map((item) => {
                             const mandiRate = item.mandiRate || Math.round(item.price * 1.35);
                             const savings = Math.round(((mandiRate - item.price) / mandiRate) * 100);
 
                             return (
-                                <div key={item._id} className="glass-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}>
+                                <div key={item._id} className="glass-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
                                     <div style={{ position: 'relative' }}>
-                                        <img 
-                                            src={item.image || 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop'} 
-                                            alt={item.title} 
-                                            onError={(e) => { e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop"; }}
-                                            style={{ width: '100%', height: '220px', objectFit: 'cover' }} 
+                                        <img
+                                            src={item.image || 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop'}
+                                            alt={item.title}
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = 'https://images.unsplash.com/photo-1595856453669-e970a2fdfde1?q=80&w=600&auto=format&fit=crop';
+                                            }}
+                                            style={{ width: '100%', height: '220px', objectFit: 'cover' }}
                                         />
                                         <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: '#e6f4ea', color: 'var(--success)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
                                             <Sparkles size={14} /> {savings}% AI Savings
@@ -143,18 +152,39 @@ export default function ConsumerDashboard() {
                                         <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.3rem', color: 'var(--text-main)' }}>{item.title}</h3>
 
                                         <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-muted)', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                            <MapPin size={16} /> {item.farmerName} • {item.address || 'Local Farm'}
+                                            <MapPin size={16} /> {item.farmerName} - {item.address || 'Local Farm'}
                                         </p>
 
-                                        <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', background: 'rgba(46, 161, 105, 0.05)', padding: '1rem', borderRadius: '12px' }}>
+                                        <div style={{ marginTop: 'auto', background: 'rgba(46, 161, 105, 0.05)', padding: '1rem', borderRadius: '12px' }}>
                                             <div>
                                                 <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Direct Price</div>
-                                                <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--primary)', lineHeight: 1 }}>₹{item.price}<span style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--text-muted)' }}>/kg</span></div>
-                                                <div style={{ fontSize: '0.85rem', textDecoration: 'line-through', color: 'var(--danger)', marginTop: '0.3rem' }}>Mandi Rate: ₹{mandiRate}/kg</div>
+                                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>Rs.{item.price}<span style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--text-muted)' }}>/kg</span></div>
+                                                <div style={{ fontSize: '0.85rem', textDecoration: 'line-through', color: 'var(--danger)', marginTop: '0.3rem' }}>Mandi Rate: Rs.{mandiRate}/kg</div>
                                             </div>
-                                            <button onClick={() => handleBuy(item)} className="btn btn-primary" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.8rem 1.2rem' }}>
-                                                <ShoppingCart size={18} /> Buy
-                                            </button>
+
+                                            <div style={{ display: 'grid', gap: '0.75rem', marginTop: '1rem' }}>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setSelectedRouteItem(item)}
+                                                    className="btn"
+                                                    style={{
+                                                        width: '100%',
+                                                        display: 'flex',
+                                                        gap: '0.5rem',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        padding: '0.8rem 1.2rem',
+                                                        background: 'rgba(255,255,255,0.88)',
+                                                        border: '1px solid var(--glass-border)',
+                                                    }}
+                                                >
+                                                    <TimerReset size={18} /> Live ETA & Traffic
+                                                </button>
+
+                                                <button onClick={() => handleBuy(item)} className="btn btn-primary" style={{ width: '100%', display: 'flex', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', padding: '0.8rem 1.2rem' }}>
+                                                    <ShoppingCart size={18} /> Buy
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
